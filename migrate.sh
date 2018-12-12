@@ -27,17 +27,17 @@ SECURED_REGISTRY=private-registry.${CORTEX_ENV}.insights.ai
 
 ### Docker pull, tag, push ...
 echo "*** Attempting to pull '${DOCKERHUB_ORG}/${IMAGE}' from hub.docker.com"
-docker pull ${DOCKERHUB_ORG}/${IMAGE} || (echo "Unable to pull '${DOCKERHUB_ORG}/${IMAGE}'" && exit 1)
+docker pull ${DOCKERHUB_ORG}/${IMAGE} || { echo "Unable to pull '${DOCKERHUB_ORG}/${IMAGE}'" && exit 1; }
 
 echo "*** Retagging '${DOCKERHUB_ORG}/${IMAGE}' as '${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE}'"
 docker tag ${DOCKERHUB_ORG}/${IMAGE} ${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE}
 
 echo "*** Pushing '${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE}'"
-docker push ${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE} || (echo "Unable to push '${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE}', Are you sure you logged in?" && exit 1)
+docker push ${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE} || { echo "Unable to push '${SECURED_REGISTRY}/${TENANT_NAME}/${IMAGE}', Are you sure you logged in?" && exit 1; }
 
 ### Update job def...
 echo "*** Updating job definition file: ${JOBDEF_FILE}:"
-sed -i "_backup" "s/\(registry\.cortex.*:5000\/\).*\(\/.*\)/\1${TENANT_NAME}\2/g" ${JOBDEF_FILE} || (echo "Failed to update job definition file." && exit 1)
+sed -i "_backup" "s/\(registry\.cortex.*:5000\/\).*\(\/.*\)/\1${TENANT_NAME}\2/g" ${JOBDEF_FILE} || { echo "Failed to update job definition file." && exit 1; }
 cat ${JOBDEF_FILE}
 #read -n1 -r -p "Looks good? Press space to continue..." key
 
