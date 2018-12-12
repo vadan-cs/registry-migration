@@ -1,0 +1,6 @@
+{
+    "name": "vtwojob",
+    "image": "registry.cortex-stage.insights.ai:5000/foo/hello:busybox",
+    "command": ["echo", "Hello"],
+    "memory": 4096
+}

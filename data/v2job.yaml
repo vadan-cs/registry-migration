@@ -1,0 +1,6 @@
+name: uop-house-cleaning
+image: registry.cortex.insights.ai:5000/foo/uop-house-cleaning:latest
+memory: 4096
+vcpus: 1
+command:
+  - dummy_var
